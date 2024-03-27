@@ -13,6 +13,7 @@ export class ProductRoutes {
     router.get('/:id', controller.getProduct)
     router.put('/:id', controller.updateProduct)
     router.patch('/:id', controller.updateProductAvailability)
+    router.delete('/:id', controller.deleteProduct)
 
     return router
   }

@@ -8,8 +8,10 @@ export class ProductService {
   public async createProduct(createProductDto: CreateProductDto) {
     const { name, price } = createProductDto
     try {
-      const product = await Product.create({ name, price })
-      return product
+      await Product.create({ name, price })
+      return {
+        message: 'Producto agregado correctamente'
+      }
     } catch (error) {
       throw CustomError.internalServer('Hubo un error en el servidor')
     }
@@ -41,6 +43,9 @@ export class ProductService {
     try {
       await product.update(updateProductDto)
       await product.save()
+      return {
+        message: 'Producto actualizado correctamente'
+      }
     } catch (error) {
       throw CustomError.internalServer('Hubo un error en el servidor')
     }
@@ -51,6 +56,21 @@ export class ProductService {
     try {
       product.availability = !product.dataValues.availability
       await product.save()
+      return {
+        message: 'Disponibilidad actualizada correctamente'
+      }
+    } catch (error) {
+      throw CustomError.internalServer('Hubo un error en el servidor')
+    }
+  }
+
+  public async deleteProduct (id: number) {
+    const product = await this.getProduct(id)
+    try {
+      await product.destroy()
+      return {
+        message: 'Producto eliminado correctamente'
+      }
     } catch (error) {
       throw CustomError.internalServer('Hubo un error en el servidor')
     }

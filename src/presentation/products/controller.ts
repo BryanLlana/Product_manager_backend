@@ -52,4 +52,10 @@ export class ProductController {
       .then(product => res.status(200).json(product))
       .catch(error => this.handleError(error, res))
   }
+
+  public deleteProduct = (req: Request, res: Response) => {
+    this.productService.deleteProduct(+req.params.id)
+      .then(product => res.status(200).json(product))
+      .catch(error => this.handleError(error, res))
+  }
 }
