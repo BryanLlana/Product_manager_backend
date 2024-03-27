@@ -10,6 +10,7 @@ export class ProductRoutes {
 
     router.post('/', controller.createProduct)
     router.get('/', controller.getproducts)
+    router.get('/:id', controller.getProduct)
 
     return router
   }

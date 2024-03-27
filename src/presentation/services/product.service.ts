@@ -17,10 +17,21 @@ export class ProductService {
 
   public async getProducts() {
     try {
-      const products = await Product.findAll()
+      const products = await Product.findAll({
+        order: [
+          ['price', 'DESC']
+        ],
+        attributes: { exclude: ['createdAt', 'updatedAt']}
+      })
       return products
     } catch (error) {
       throw CustomError.internalServer('Hubo un error en el servidor')
     }
+  }
+
+  public async getProduct(id: number) {
+    const product = await Product.findOne({ where: { id }, attributes: { exclude: ['createdAt', 'updatedAt']}})
+    if (!product) throw CustomError.notFound('Producto inexistente')
+    return product
   }
 }
