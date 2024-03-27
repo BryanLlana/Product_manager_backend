@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize'
+import colors from 'colors'
 
 export class PostgresqlDB {
   public static async connect (url: string) {
@@ -6,9 +7,10 @@ export class PostgresqlDB {
     try {
       await db.authenticate()
       db.sync()
-      console.log('Successful connection')
+      console.log(colors.green.bold('Successful connection'))
     } catch (error) {
       console.log(error)
+      console.log(colors.red.bold('Connection failed'))
     }
   } 
 }

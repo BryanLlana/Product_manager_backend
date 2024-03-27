@@ -1,4 +1,5 @@
 import express, {Router} from 'express'
+import colors from 'colors'
 
 interface Options {
   port: number,
@@ -21,7 +22,7 @@ export class Server {
     this.app.use(express.urlencoded({extended: true}))
 
     this.app.listen(this.port, () => {
-      console.log(`Server running on port ${this.port}`)
+      console.log(colors.cyan.bold(`Server running on port ${this.port}`))
     })
   }
 }
