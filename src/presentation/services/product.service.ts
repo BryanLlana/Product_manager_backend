@@ -30,8 +30,20 @@ export class ProductService {
   }
 
   public async getProduct(id: number) {
+    if (isNaN(+id)) throw CustomError.badRequest('Id no válido')
     const product = await Product.findOne({ where: { id }, attributes: { exclude: ['createdAt', 'updatedAt']}})
     if (!product) throw CustomError.notFound('Producto inexistente')
     return product
+  }
+
+  public async updateProduct(id: number, updateProductDto: {[key: string]: any}) {
+    const product = await this.getProduct(id)
+    try {
+      await product.update(updateProductDto)
+      const productUpdate = await product.save()
+      return productUpdate
+    } catch (error) {
+      throw CustomError.internalServer('Hubo un error en el servidor')
+    }
   }
 }

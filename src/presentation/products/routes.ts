@@ -11,6 +11,7 @@ export class ProductRoutes {
     router.post('/', controller.createProduct)
     router.get('/', controller.getproducts)
     router.get('/:id', controller.getProduct)
+    router.patch('/:id', controller.updateProduct)
 
     return router
   }
