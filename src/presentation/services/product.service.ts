@@ -40,8 +40,17 @@ export class ProductService {
     const product = await this.getProduct(id)
     try {
       await product.update(updateProductDto)
-      const productUpdate = await product.save()
-      return productUpdate
+      await product.save()
+    } catch (error) {
+      throw CustomError.internalServer('Hubo un error en el servidor')
+    }
+  }
+
+  public async updateProductAvailability (id: number) {
+    const product = await this.getProduct(id)
+    try {
+      product.availability = !product.dataValues.availability
+      await product.save()
     } catch (error) {
       throw CustomError.internalServer('Hubo un error en el servidor')
     }

@@ -46,4 +46,10 @@ export class ProductController {
       .then(product => res.status(200).json(product))
       .catch(error => this.handleError(error, res))
   }
+
+  public updateProductAvailability = (req: Request, res: Response) => {
+    this.productService.updateProductAvailability(+req.params.id)
+      .then(product => res.status(200).json(product))
+      .catch(error => this.handleError(error, res))
+  }
 }
