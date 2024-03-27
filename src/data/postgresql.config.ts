@@ -1,9 +1,11 @@
-import { Sequelize } from 'sequelize'
+import { Sequelize } from 'sequelize-typescript'
 import colors from 'colors'
 
 export class PostgresqlDB {
   public static async connect (url: string) {
-    const db = new Sequelize(url)
+    const db = new Sequelize(url, {
+      models: [__dirname + '/models/**/*.ts']
+    })
     try {
       await db.authenticate()
       db.sync()
