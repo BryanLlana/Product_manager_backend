@@ -14,4 +14,13 @@ export class ProductService {
       throw CustomError.internalServer('Hubo un error en el servidor')
     }
   }
+
+  public async getProducts() {
+    try {
+      const products = await Product.findAll()
+      return products
+    } catch (error) {
+      throw CustomError.internalServer('Hubo un error en el servidor')
+    }
+  }
 }

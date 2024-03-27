@@ -25,4 +25,10 @@ export class ProductController {
       .then(product => res.status(200).json(product))
       .catch(error => this.handleError(error, res))
   }
+
+  public getproducts = (req: Request, res: Response) => {
+    this.productService.getProducts()
+      .then(products => res.status(200).json(products))
+      .catch(error => this.handleError(error, res))
+  }
 }

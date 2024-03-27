@@ -9,6 +9,7 @@ export class ProductRoutes {
     const controller = new ProductController(service)
 
     router.post('/', controller.createProduct)
+    router.get('/', controller.getproducts)
 
     return router
   }
