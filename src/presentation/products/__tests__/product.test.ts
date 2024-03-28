@@ -57,4 +57,55 @@ describe('GET /api/products/:id', () => {
   })
 })
 
+describe('PUT /api/products/:id', () => {
+  test('Should check a valid ID in the URL', async () => {
+    const response = await request(server.app).put('/api/products/not-valid-url').send({
+      name: 'Producto actualizado',
+      price: 200
+    })
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('error')
+    expect(response.body.error).toBe('Id no válido')
+  })
+
+  test('Should return 404 response for a non-existent product', async () => {
+    const productId = 2000
+    const response = await request(server.app).put(`/api/products/${productId}`).send({
+      name: 'Producto actualizado',
+      price: 200
+    })
+    expect(response.status).toBe(404)
+    expect(response.body).toHaveProperty('error')
+    expect(response.body.error).toBe('Producto inexistente')
+  })
+
+  test('Should display validation error messages when updating a product', async () => {
+    const response = await request(server.app).put('/api/products/1').send({})
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('error')
+    expect(response.body.error).toBe('Debe ingresar por lo menos un campo que quiera actualizar')
+  })
+
+  test('Should validate that the price is greater than 0', async () => {
+    const response = await request(server.app).put('/api/products/1').send({
+      name: 'Producto actualizado',
+      price: 0
+    })
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors.price).toBe('El precio tiene que ser mayor que 0')
+  })
+
+  test('Should update an existing product with valid data', async () => {
+    const response = await request(server.app).put('/api/products/1').send({
+      name: 'Producto actualizado',
+      price: 900,
+    })
+
+    expect(response.status).toBe(200)
+    expect(response.body).toHaveProperty('message')
+    expect(response.body.message).toBe('Producto actualizado correctamente')
+  })
+})
+
 server.close()

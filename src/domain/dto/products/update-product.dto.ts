@@ -16,7 +16,7 @@ export class UpdateProductDto {
     let { name, price } = object
     const errors: {[key: string]: any} = {}
 
-    if (price) {
+    if (price || price === 0) {
       price = Number(price)
       if (isNaN(price)) errors.price = 'El precio tiene que ser un número'
       else if (price <= 0) errors.price = 'El precio tiene que ser mayor que 0'

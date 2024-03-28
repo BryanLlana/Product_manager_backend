@@ -39,6 +39,7 @@ export class ProductService {
   }
 
   public async updateProduct(id: number, updateProductDto: {[key: string]: any}) {
+    if (Object.values(updateProductDto).length === 0) throw CustomError.badRequest('Debe ingresar por lo menos un campo que quiera actualizar')
     const product = await this.getProduct(id)
     try {
       await product.update(updateProductDto)
