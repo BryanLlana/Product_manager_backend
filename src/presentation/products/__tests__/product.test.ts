@@ -14,7 +14,7 @@ describe('POST /api/products', () => {
     expect(response.status).toBe(400)
   })
 
-  test('Should create a new product', async() => {
+  test('Should create a new product', async () => {
     const response = await request(server.app).post('/api/products').send({
       name: 'Producto Nuevo - Test',
       price: 500
@@ -24,5 +24,17 @@ describe('POST /api/products', () => {
     expect(response.status).not.toBe(400)
     expect(response.status).not.toBe(404)
     expect(response.status).not.toBe(200)
+  })
+})
+
+describe('GET /api/products', () => {
+  test('Get a JSON response with products', async () => {
+    PostgresqlDB.connect(envs.POSTGRESQL_URL)
+    const server = new Server({ port: envs.PORT, routes: AppRoutes.routes })
+    server.start()
+    const response = await request(server.app).get('/api/products')
+    server.close()
+    expect(response.status).toBe(200)
+    expect(response.status).not.toBe(404)
   })
 })
