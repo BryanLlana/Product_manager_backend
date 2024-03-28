@@ -4,10 +4,11 @@ import { envs } from '../../../config'
 import { AppRoutes } from '../../routes'
 import { PostgresqlDB } from '../../../data/postgresql.config'
 
+PostgresqlDB.connect(envs.POSTGRESQL_URL)
+const server = new Server({ port: envs.PORT, routes: AppRoutes.routes })
+server.start()
+
 describe('POST /api/products', () => {
-  PostgresqlDB.connect(envs.POSTGRESQL_URL)
-  const server = new Server({ port: envs.PORT, routes: AppRoutes.routes })
-  server.start()
 
   test('Should display validation errors', async () => {
     const response = await request(server.app).post('/api/products').send({})
@@ -19,7 +20,6 @@ describe('POST /api/products', () => {
       name: 'Producto Nuevo - Test',
       price: 500
     })
-    server.close()
     expect(response.status).toBe(201)
     expect(response.status).not.toBe(400)
     expect(response.status).not.toBe(404)
@@ -29,12 +29,32 @@ describe('POST /api/products', () => {
 
 describe('GET /api/products', () => {
   test('Get a JSON response with products', async () => {
-    PostgresqlDB.connect(envs.POSTGRESQL_URL)
-    const server = new Server({ port: envs.PORT, routes: AppRoutes.routes })
-    server.start()
     const response = await request(server.app).get('/api/products')
-    server.close()
     expect(response.status).toBe(200)
     expect(response.status).not.toBe(404)
   })
 })
+
+describe('GET /api/products/:id', () => {
+  test('Should return 404 response for a non-existent product', async () => {
+    const productId = 2000
+    const response = await request(server.app).get(`/api/products/${productId}`)
+    expect(response.status).toBe(404)
+    expect(response.body).toHaveProperty('error')
+    expect(response.body.error).toBe('Producto inexistente')
+  })
+
+  test('Should check a valid ID in the URL', async () => {
+    const response = await request(server.app).get('/api/products/not-valid-url')
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('error')
+    expect(response.body.error).toBe('Id no válido')
+  })
+
+  test('Get a JSON response for a single product', async () => {
+    const response = await request(server.app).get('/api/products/1')
+    expect(response.status).toBe(200)
+  })
+})
+
+server.close()
