@@ -1,10 +1,12 @@
 import { Sequelize } from 'sequelize-typescript'
 import colors from 'colors'
+import { exit } from 'node:process'
 
 export class PostgresqlDB {
   public static async connect (url: string) {
     const db = new Sequelize(url, {
-      models: [__dirname + '/models/**/*.ts']
+      models: [__dirname + '/models/**/*.ts'],
+      logging: false
     })
     try {
       await db.authenticate()
@@ -15,5 +17,20 @@ export class PostgresqlDB {
       console.log(colors.red.bold('Connection failed'))
     }
   } 
+
+  public static async clearDB (url: string) {
+    const db = new Sequelize(url, {
+      models: [__dirname + '/models/**/*.ts'],
+      logging: false
+    })
+    try {
+      await db.sync({ force: true })
+      console.log('Datos eliminados correctamente')
+      exit(0)
+    } catch (error) {
+      console.log(error)
+      exit(1)
+    }
+  }
 }
 

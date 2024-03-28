@@ -22,7 +22,7 @@ export class ProductController {
     if (errors) return res.status(400).json({ errors })
 
     this.productService.createProduct(createProductDto!)
-      .then(product => res.status(200).json(product))
+      .then(product => res.status(201).json(product))
       .catch(error => this.handleError(error, res))
   }
 

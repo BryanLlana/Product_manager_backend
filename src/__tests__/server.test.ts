@@ -7,12 +7,12 @@ describe('GET /api/products', () => {
     const server = new Server({ port: envs.PORT, routes: AppRoutes.routes })
     server.start()
     const res = await request(server.app).get('/api')
+    server.close()
     expect(res.status).toBe(200)
     expect(res.headers['content-type']).toMatch(/json/)
     expect(res.body.msg).toBe('Desde api')
 
     expect(res.status).not.toBe(404)
     expect(res.body.msg).not.toBe('desde api')
-    server.close()
   })
 })
