@@ -8,6 +8,7 @@
     "build": "rimraf ./dist && tsc",
     "start": "npm run build && node dist/app.js",
     "test": "jest --detectOpenHandles",
+    "test:coverage": "jest --detectOpenHandles --coverage",
     "cleardb": "tsnd --respawn --clear src/data --delete"
   },
   "keywords": [],
