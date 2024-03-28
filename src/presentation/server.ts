@@ -7,9 +7,10 @@ interface Options {
 }
 
 export class Server {
-  private readonly app = express()
+  public readonly app = express()
   private readonly port: number
   private readonly routes: Router
+  private serverListener: any
 
   constructor (options: Options) {
     this.port = options.port
@@ -23,8 +24,16 @@ export class Server {
 
     this.app.use(this.routes)
 
-    this.app.listen(this.port, () => {
+    this.app.get('/api', (req, res) => {
+      res.json({ msg: 'Desde api' })
+    })
+
+    this.serverListener = this.app.listen(this.port, () => {
       console.log(colors.cyan.bold(`Server running on port ${this.port}`))
     })
+  }
+
+  public close() {
+    this.serverListener?.close()
   }
 }
