@@ -8,6 +8,33 @@ export class ProductRoutes {
     const service = new ProductService()
     const controller = new ProductController(service)
 
+    /**
+     * @swagger
+     * /api/products:
+     *  post:
+     *    summary: Create a new product
+     *    tags: 
+     *      - Products
+     *    description: Returns a new record in the database
+     *    requestBody: 
+     *      required: true
+     *      content: 
+     *        application/json:
+     *          schema: 
+     *            type: object
+     *            properties:
+     *              name: 
+     *                type: string
+     *                example: Procesador Intel i5
+     *              price: 
+     *                type: number
+     *                example: 300
+     *    responses:
+     *      201: 
+     *        description: Product created successfully
+     *      400:
+     *        description: Bad request - Invalid input data 
+     */
     router.post('/', controller.createProduct)
 
     /**
