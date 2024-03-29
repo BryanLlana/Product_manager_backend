@@ -152,7 +152,29 @@ export class ProductRoutes {
      */
     router.patch('/:id', controller.updateProductAvailability)
 
-    
+    /**
+     * @swagger
+     * /api/products/{id}:
+     *  delete:
+     *    summary: Deletes a product by a given ID
+     *    tags: 
+     *      - Products
+     *    description: Returns a successfully deleted product message
+     *    parameters:
+     *      - in: path
+     *        name: id
+     *        description: The ID of the product to delete
+     *        required: true
+     *        schema: 
+     *          type: integer
+     *    responses:
+     *      200:
+     *        description: Product deleted successfully
+     *      400:
+     *        description: Bad request - Invalid ID
+     *      404:
+     *        description: Product not found
+     */
     router.delete('/:id', controller.deleteProduct)
 
     return router
