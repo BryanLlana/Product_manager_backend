@@ -15,7 +15,7 @@ export class ProductRoutes {
      *    summary: Create a new product
      *    tags: 
      *      - Products
-     *    description: Returns a new record in the database
+     *    description: Returns a successfully created product message
      *    requestBody: 
      *      required: true
      *      content: 
@@ -85,6 +85,46 @@ export class ProductRoutes {
      *        description: Bad request - Invalid ID
      */
     router.get('/:id', controller.getProduct)
+
+    /**
+     * @swagger
+     * /api/products/{id}:
+     *  put:
+     *    summary: Updates a product whit user input
+     *    tags: 
+     *      - Products
+     *    description: Returns a successfully updated product message
+     *    parameters:
+     *    - in: path
+     *      name: id
+     *      description: The ID of the product to retrieve
+     *      required: true
+     *      schema: 
+     *        type: integer
+     *    requestBody:
+     *      required: true
+     *      content: 
+     *        application/json:
+     *          schema:
+     *            type: object
+     *            properties:
+     *              name: 
+     *                type: string
+     *                example: 'Nuevo nombre del producto'
+     *              price:
+     *                type: number
+     *                example: 500
+     *              availability: 
+     *                type: boolean
+     *                example: false
+     *    responses:
+     *      200:
+     *        description: Product modified successfully
+     *      400:
+     *        description: Bad request - Invalid ID or Invalid input data
+     *      404:
+     *        description: Product not found
+     */
     router.put('/:id', controller.updateProduct)
     router.patch('/:id', controller.updateProductAvailability)
     router.delete('/:id', controller.deleteProduct)
