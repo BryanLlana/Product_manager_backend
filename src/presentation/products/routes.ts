@@ -29,6 +29,34 @@ export class ProductRoutes {
      *                $ref: '#/components/schemas/Products'
      */
     router.get('/', controller.getproducts)
+
+    /**
+     * @swagger
+     * /api/products/{id}:
+     *  get:
+     *    summary: Get a product by ID
+     *    tags: 
+     *      - Products
+     *    description: Return a product based on its unique ID
+     *    parameters: 
+     *    - in: path
+     *      name: id
+     *      description: The ID of the product to retrieve
+     *      required: true
+     *      schema: 
+     *        type: integer
+     *    responses: 
+     *      200:
+     *        description: Successful response
+     *        content: 
+     *          application/json:
+     *            schema: 
+     *              $ref: '#/components/schemas/Products'
+     *      404:
+     *        description: Not found
+     *      400:
+     *        description: Bad request - Invalid ID
+     */
     router.get('/:id', controller.getProduct)
     router.put('/:id', controller.updateProduct)
     router.patch('/:id', controller.updateProductAvailability)
