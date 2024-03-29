@@ -9,6 +9,25 @@ export class ProductRoutes {
     const controller = new ProductController(service)
 
     router.post('/', controller.createProduct)
+
+    /**
+     * @swagger
+     * /api/products:
+     *  get:
+     *    summary: Get a list of products
+     *    tags: 
+     *      - Products
+     *    description: Return a list of products
+     *    responses: 
+     *      200: 
+     *        description: Successful response
+     *        content: 
+     *          application/json:
+     *            schema:
+     *              type: array
+     *              items:
+     *                $ref: '#/components/schemas/Products'
+     */
     router.get('/', controller.getproducts)
     router.get('/:id', controller.getProduct)
     router.put('/:id', controller.updateProduct)
