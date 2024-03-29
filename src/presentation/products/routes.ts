@@ -126,7 +126,33 @@ export class ProductRoutes {
      *        description: Product not found
      */
     router.put('/:id', controller.updateProduct)
+
+    /**
+     * @swagger
+     * /api/products/{id}:
+     *  patch:
+     *    summary: Update product availability
+     *    tags: 
+     *      - Products
+     *    description: Returns an updated availability message
+     *    parameters:
+     *      - in: path
+     *        name: id
+     *        description: The ID of the product to retrieve
+     *        required: true
+     *        schema: 
+     *          type: integer
+     *    responses:
+     *      200:
+     *        description: Product availability modified successfully
+     *      400:
+     *        description: Bad request - Invalid ID
+     *      404:
+     *        description: Product not found
+     */
     router.patch('/:id', controller.updateProductAvailability)
+
+    
     router.delete('/:id', controller.deleteProduct)
 
     return router
