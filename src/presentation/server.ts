@@ -1,26 +1,33 @@
 import express, {Router} from 'express'
 import colors from 'colors'
+import morgan from 'morgan'
 
 interface Options {
   port: number,
-  routes: Router
+  routes: Router,
+  cors: Function
 }
 
 export class Server {
   public readonly app = express()
   private readonly port: number
   private readonly routes: Router
+  private readonly cors: Function
   private serverListener: any
 
   constructor (options: Options) {
     this.port = options.port
     this.routes = options.routes
+    this.cors = options.cors
   }
 
   public start() {
     //* Middlewares
     this.app.use(express.json())
     this.app.use(express.urlencoded({extended: true}))
+
+    this.app.use(this.cors())
+    this.app.use(morgan('dev'))
 
     this.app.use(this.routes)
 
