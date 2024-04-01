@@ -3,9 +3,10 @@ import { Server } from '../../server'
 import { envs } from '../../../config'
 import { AppRoutes } from '../../routes'
 import { PostgresqlDB } from '../../../data/postgresql.config'
+import { CorsAdapter } from '../../../config/adapter'
 
 PostgresqlDB.connect(envs.POSTGRESQL_URL)
-const server = new Server({ port: envs.PORT, routes: AppRoutes.routes })
+const server = new Server({ port: envs.PORT, routes: AppRoutes.routes, cors: CorsAdapter.create() })
 server.start()
 
 describe('POST /api/products', () => {
