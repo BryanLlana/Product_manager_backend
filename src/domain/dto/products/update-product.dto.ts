@@ -2,18 +2,20 @@ export class UpdateProductDto {
   constructor(
     public readonly name?: string,
     public readonly price?: number,
+    public readonly availability?: boolean
   ) {}
 
   get values() {
     const returnObj: {[key: string]: any} = {}
     if (this.name) returnObj.name = this.name
     if (this.price) returnObj.price = this.price
+    if (this.availability) returnObj.availability = this.availability
 
     return returnObj
   }
 
   static create (object: {[key: string]: any}): [Object?, UpdateProductDto?] {
-    let { name, price } = object
+    let { name, price, availability } = object
     const errors: {[key: string]: any} = {}
 
     if (price || price === 0) {
@@ -23,6 +25,6 @@ export class UpdateProductDto {
     }
 
     if (Object.values(errors).length > 0) return [errors, undefined]
-    return [undefined, new UpdateProductDto(name, price)]
+    return [undefined, new UpdateProductDto(name, price, availability)]
   }
 }
