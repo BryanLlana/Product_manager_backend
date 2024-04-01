@@ -5,7 +5,7 @@ import { exit } from 'node:process'
 export class PostgresqlDB {
   public static async connect (url: string) {
     const db = new Sequelize(url, {
-      models: [__dirname + '/models/**/*.ts'],
+      models: [__dirname + '/models/**/*'],
       logging: false
     })
     try {
@@ -20,7 +20,7 @@ export class PostgresqlDB {
 
   public static async clearDB (url: string) {
     const db = new Sequelize(url, {
-      models: [__dirname + '/models/**/*.ts'],
+      models: [__dirname + '/models/**/*'],
       logging: false
     })
     try {
